@@ -31,6 +31,7 @@ function ChartCard({ title, data, type = 'pie', delay = 0 }) {
         bottomMargin: 18,
         pieRadius: 70,
         pieShowLabels: false,
+        legendShowMeta: true,
       };
     }
     if (width < 640) {
@@ -46,6 +47,7 @@ function ChartCard({ title, data, type = 'pie', delay = 0 }) {
         bottomMargin: 18,
         pieRadius: 85,
         pieShowLabels: false,
+        legendShowMeta: true,
       };
     }
     if (width < 1024) {
@@ -61,6 +63,7 @@ function ChartCard({ title, data, type = 'pie', delay = 0 }) {
         bottomMargin: 18,
         pieRadius: 100,
         pieShowLabels: true,
+        legendShowMeta: false,
       };
     }
     return {
@@ -75,6 +78,7 @@ function ChartCard({ title, data, type = 'pie', delay = 0 }) {
       bottomMargin: 18,
       pieRadius: 110,
       pieShowLabels: true,
+      legendShowMeta: false,
     };
   };
 
@@ -302,7 +306,11 @@ function ChartCard({ title, data, type = 'pie', delay = 0 }) {
             <div key={item.label} className="chart-legend__item">
               <span className="chart-legend__dot" style={{ backgroundColor: item.color }} />
               <span className="chart-legend__label">{item.label}</span>
-              {item.meta && <span className="chart-legend__meta">{item.meta}</span>}
+              {viewportConfig.legendShowMeta && item.meta && (
+                <span className="chart-legend__meta" style={{ color: '#ffffff' }}>
+                  {item.meta}
+                </span>
+              )}
             </div>
           ))}
         </div>

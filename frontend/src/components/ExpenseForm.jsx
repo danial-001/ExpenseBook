@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
-import { X, Tag, Calendar, FileText } from 'lucide-react';
+import { X, Tag, Calendar, FileText, ChevronDown } from 'lucide-react';
+import { formatCurrency } from '../utils/currency';
 import { expenseAPI } from '../utils/api';
 import { addExpense, updateExpense } from '../redux/expenseSlice';
 
-function ExpenseForm({ onClose, expense = null }) {
+function ExpenseForm({ onClose, expense = null, remainingBalance = null }) {
   const isEdit = !!expense;
   const dispatch = useDispatch();
   
@@ -18,6 +19,15 @@ function ExpenseForm({ onClose, expense = null }) {
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const normalizedRemaining = typeof remainingBalance === 'number' ? remainingBalance : null;
+  const existingAmount = Number(expense?.amount ?? 0);
+  const allowableBudget = normalizedRemaining !== null ? normalizedRemaining + (isEdit ? existingAmount : 0) : null;
+  const currentAmount = parseFloat(formData.amount || '0');
+  const exceedsBudget = allowableBudget !== null && currentAmount > allowableBudget;
+  const noFundsForNew = !isEdit && normalizedRemaining !== null && normalizedRemaining <= 0;
+  const displayRemaining = normalizedRemaining !== null ? Math.max(normalizedRemaining, 0) : null;
+  const displayBudgetCap = allowableBudget !== null ? Math.max(allowableBudget, 0) : null;
 
   const categories = ['Food', 'Rent', 'Travel', 'Misc.', 'Others'];
 
@@ -35,6 +45,20 @@ function ExpenseForm({ onClose, expense = null }) {
     setError('');
 
     try {
+      const numericAmount = parseFloat(formData.amount);
+
+      if (Number.isNaN(numericAmount) || numericAmount <= 0) {
+        setError('Amount should be a positive number.');
+        setLoading(false);
+        return;
+      }
+
+      if (allowableBudget !== null && numericAmount > allowableBudget) {
+        setError(`This expense exceeds your available balance. You can spend up to ${formatCurrency(displayBudgetCap || 0)}.`);
+        setLoading(false);
+        return;
+      }
+
       if (isEdit) {
         const response = await expenseAPI.update(expense.id, formData);
         dispatch(updateExpense(response.data.expense));
@@ -100,8 +124,26 @@ function ExpenseForm({ onClose, expense = null }) {
                 className="input-field input-with-icon"
                 placeholder="0.00"
                 required
+                disabled={noFundsForNew}
               />
             </div>
+            {normalizedRemaining !== null && (
+              <p className="mt-2 text-xs font-medium text-neutral-muted dark:text-neutral-light/70">
+                {isEdit
+                  ? `You can adjust this expense up to ${formatCurrency(displayBudgetCap || 0)}.`
+                  : `Remaining balance: ${formatCurrency(displayRemaining || 0)}.`}
+              </p>
+            )}
+            {exceedsBudget && (
+              <p className="mt-1 text-xs font-semibold text-semantic-danger">
+                Amount exceeds your available balance. Lower the value to continue.
+              </p>
+            )}
+            {noFundsForNew && (
+              <p className="mt-1 text-xs font-semibold text-semantic-danger text-white">
+                Remaining balance is zero. Add income or withdraw savings before recording new expenses.
+              </p>
+            )}
           </div>
 
           <div>
@@ -114,7 +156,7 @@ function ExpenseForm({ onClose, expense = null }) {
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="input-field input-with-icon"
+                className="input-field input-with-icon appearance-none pr-12"
                 required
               >
                 {categories.map((cat) => (
@@ -123,6 +165,7 @@ function ExpenseForm({ onClose, expense = null }) {
                   </option>
                 ))}
               </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
             </div>
           </div>
 
@@ -170,7 +213,7 @@ function ExpenseForm({ onClose, expense = null }) {
             </button>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || exceedsBudget || noFundsForNew}
               className="btn-primary flex-1 disabled:opacity-50"
             >
               {loading ? 'Saving...' : isEdit ? 'Update' : 'Add Expense'}

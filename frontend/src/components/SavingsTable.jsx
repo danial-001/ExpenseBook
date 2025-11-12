@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
-import { PiggyBank, Banknote } from 'lucide-react';
+import { Banknote } from 'lucide-react';
 import { formatCurrency } from '../utils/currency';
 
 function SavingsTable({ summary, transactions }) {
@@ -50,9 +50,9 @@ function SavingsTable({ summary, transactions }) {
         </div>
         <div className="card bg-gray-50 dark:bg-dark-primary">
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-xl bg-blue-500/10 text-blue-500">
-              <PiggyBank className="w-5 h-5" />
-            </div>
+            <span className="badge-prefix bg-brand-accent/10 text-brand-accent">
+              PKR
+            </span>
             <div>
               <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                 Savings Balance

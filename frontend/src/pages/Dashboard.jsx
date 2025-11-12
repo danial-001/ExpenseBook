@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { Plus, TrendingUp, TrendingDown, Wallet, Lightbulb, Banknote, PiggyBank } from 'lucide-react';
+import { Plus, TrendingUp, TrendingDown, Wallet, Lightbulb, Banknote } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import StatCard from '../components/StatCard';
 import ChartCard from '../components/ChartCard';
@@ -284,7 +284,7 @@ function Dashboard() {
         {/* Tables */}
         <section className="grid grid-cols-1 xl:grid-cols-2 gap-6">
           <motion.div initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.45 }}>
-            <ExpenseTable type="expense" />
+            <ExpenseTable type="expense" remainingBalance={analytics?.current_month?.remaining_balance} />
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 18 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>
             <ExpenseTable type="income" carryover={analytics?.current_month?.carryover} />
@@ -297,7 +297,12 @@ function Dashboard() {
       </main>
 
       {/* Modals */}
-      {showExpenseForm && <ExpenseForm onClose={handleFormClose} />}
+      {showExpenseForm && (
+        <ExpenseForm
+          onClose={handleFormClose}
+          remainingBalance={analytics?.current_month?.remaining_balance}
+        />
+      )}
       {showIncomeForm && <IncomeForm onClose={handleFormClose} />}
       {showSavingsForm && (
         <SavingsForm

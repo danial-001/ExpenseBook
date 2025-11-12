@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { LogOut, Moon, Sun, User, Wallet, Menu, X } from 'lucide-react';
 import { logout } from '../redux/userSlice';
-import { toggleTheme } from '../redux/themeSlice';
+import { toggleTheme, setTheme } from '../redux/themeSlice';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(setTheme('dark'));
     navigate('/login');
   };
 
@@ -116,7 +117,7 @@ function Navbar() {
         </div>
         {mobileOpen && (
           <div className="sm:hidden mt-3 pb-4 flex flex-col gap-4">
-            <div className="flex items-center justify-between px-1">
+            {/* <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-2xl flex items-center justify-center bg-gradient-to-br from-dark-accent to-light-surface">
                   <Wallet className="w-4 h-4 text-dark-bg" />
@@ -135,7 +136,7 @@ function Navbar() {
               >
                 <X className="w-4 h-4" />
               </button>
-            </div>
+            </div> */}
             {user && (
               <div className="flex items-center gap-3 px-4 py-3 rounded-2xl border border-[rgba(67,86,99,0.15)] bg-white/80 dark:bg-[rgba(49,54,71,0.85)] dark:border-[rgba(163,176,135,0.28)]">
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-dark-accent to-light-surface flex items-center justify-center">
@@ -147,7 +148,7 @@ function Navbar() {
                 </div>
               </div>
             )}
-            <button
+            {/* <button
               onClick={handleThemeToggle}
               className="flex items-center justify-between px-4 py-3 rounded-2xl border border-[rgba(67,86,99,0.15)] bg-white/90 dark:bg-[rgba(49,54,71,0.85)] dark:border-[rgba(163,176,135,0.28)] text-sm font-semibold"
             >
@@ -159,7 +160,7 @@ function Navbar() {
               className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-semantic-danger text-white font-semibold shadow-soft"
             >
               <LogOut className="w-4 h-4" /> Logout
-            </button>
+            </button> */}
           </div>
         )}
       </div>

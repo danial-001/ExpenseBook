@@ -10,7 +10,7 @@ import ExpenseForm from './ExpenseForm';
 import IncomeForm from './IncomeForm';
 import { formatCurrency } from '../utils/currency';
 
-function ExpenseTable({ type = 'expense', carryover = null }) {
+function ExpenseTable({ type = 'expense', carryover = null, remainingBalance = null }) {
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.expenses.expenses);
   const incomes = useSelector((state) => state.incomes.incomes);
@@ -270,6 +270,7 @@ function ExpenseTable({ type = 'expense', carryover = null }) {
               setShowForm(false);
               setEditingItem(null);
             }}
+            remainingBalance={remainingBalance}
           />
         ) : (
           <IncomeForm

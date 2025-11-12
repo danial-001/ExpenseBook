@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, PiggyBank, Banknote, Calendar, FileText, Wallet } from 'lucide-react';
 import { savingsAPI } from '../utils/api';
+import { formatCurrency } from '../utils/currency';
 
 function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 0, remainingBalance = 0 }) {
   const [formData, setFormData] = useState({
@@ -194,7 +195,7 @@ function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className="input-field pl-11 resize-none"
+                className="input-field textarea-with-icon resize-none"
                 placeholder="Why are you adjusting the savings?"
               />
             </div>
