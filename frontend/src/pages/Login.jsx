@@ -89,7 +89,7 @@ function Login() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="input-field pl-11"
+                  className="input-field input-with-icon"
                   placeholder="you@example.com"
                   required
                 />
@@ -107,7 +107,7 @@ function Login() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="input-field pl-11"
+                  className="input-field input-with-icon"
                   placeholder="••••••••"
                   required
                 />

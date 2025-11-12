@@ -105,7 +105,7 @@ function Register() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="input-field pl-11"
+                  className="input-field input-with-icon"
                   placeholder="John Doe"
                   required
                 />
@@ -123,7 +123,7 @@ function Register() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="input-field pl-11"
+                  className="input-field input-with-icon"
                   placeholder="you@example.com"
                   required
                 />
@@ -141,7 +141,7 @@ function Register() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="input-field pl-11"
+                  className="input-field input-with-icon"
                   placeholder="••••••••"
                   required
                   minLength={6}
@@ -160,7 +160,7 @@ function Register() {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="input-field pl-11"
+                  className="input-field input-with-icon"
                   placeholder="••••••••"
                   required
                   minLength={6}
