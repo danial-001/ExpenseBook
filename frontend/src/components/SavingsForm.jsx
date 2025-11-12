@@ -14,6 +14,11 @@ function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 
   const [error, setError] = useState('');
 
   const isWithdraw = action === 'withdraw';
+  const normalizedRemaining = typeof remainingBalance === 'number' ? remainingBalance : 0;
+  const depositLimit = !isWithdraw ? Math.max(normalizedRemaining, 0) : null;
+  const currentAmount = parseFloat(formData.amount || '0');
+  const exceedsDepositLimit = depositLimit !== null && currentAmount > depositLimit;
+  const noFundsForDeposit = !isWithdraw && depositLimit === 0;
 
   const handleChange = (e) => {
     setFormData({
@@ -39,6 +44,16 @@ function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 
 
     if (isWithdraw && numericAmount > savingsBalance) {
       setError('Withdrawal amount exceeds your current savings balance.');
+      return;
+    }
+
+    if (!isWithdraw && depositLimit !== null && numericAmount > depositLimit) {
+      setError('Amount exceeds your available remaining balance.');
+      return;
+    }
+
+    if (!isWithdraw && depositLimit === 0) {
+      setError('No remaining balance available to move into savings.');
       return;
     }
 
@@ -163,8 +178,24 @@ function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 
                 className="input-field input-with-icon"
                 placeholder="0.00"
                 required
+                disabled={noFundsForDeposit}
               />
             </div>
+            {!isWithdraw && (
+              <p className="mt-2 text-xs font-medium text-neutral-muted dark:text-neutral-light/70">
+                Remaining balance available: {formatCurrency(depositLimit || 0)}
+              </p>
+            )}
+            {!isWithdraw && exceedsDepositLimit && (
+              <p className="mt-1 text-xs font-semibold text-semantic-danger text-white">
+                Enter an amount up to your available remaining balance.
+              </p>
+            )}
+            {noFundsForDeposit && (
+              <p className="mt-1 text-xs font-semibold text-semantic-danger text-white">
+                Remaining balance is zero. Add income or withdraw savings before depositing.
+              </p>
+            )}
           </div>
 
           <div>
@@ -211,7 +242,7 @@ function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 
             </button>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || exceedsDepositLimit || noFundsForDeposit}
               className="btn-primary flex-1 disabled:opacity-50"
             >
               {loading ? 'Saving...' : isWithdraw ? 'Withdraw' : 'Add to Savings'}

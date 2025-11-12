@@ -135,12 +135,12 @@ function ExpenseForm({ onClose, expense = null, remainingBalance = null }) {
               </p>
             )}
             {exceedsBudget && (
-              <p className="mt-1 text-xs font-semibold text-semantic-danger">
+              <p className="mt-1 text-xs font-semibold text-semantic-danger text-white">
                 Amount exceeds your available balance. Lower the value to continue.
               </p>
             )}
             {noFundsForNew && (
-              <p className="mt-1 text-xs font-semibold text-semantic-danger text-white">
+              <p className="mt-1 text-xs font-semibold text-white">
                 Remaining balance is zero. Add income or withdraw savings before recording new expenses.
               </p>
             )}
