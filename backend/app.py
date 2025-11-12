@@ -18,7 +18,11 @@ def create_app():
     
     # Initialize database
     db.init_app(app)
-    
+
+    # Ensure tables exist on startup (important for managed hosts like Render)
+    with app.app_context():
+        db.create_all()
+
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(expense_bp, url_prefix='/api')
