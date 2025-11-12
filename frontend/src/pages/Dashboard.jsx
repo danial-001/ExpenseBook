@@ -225,7 +225,7 @@ function Dashboard() {
                 <span className="badge-prefix bg-brand-accent/15 text-brand-accent">PKR</span>
                 Add to Savings
               </motion.button>
-              <motion.button
+              <motion.button 
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => openSavingsForm('withdraw')}
