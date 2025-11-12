@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { formatCurrency } from '../utils/currency';
 
 function StatCard({ icon, title, value, subtitle, color = 'accent', delay = 0 }) {
   const colorConfig = {
@@ -38,11 +39,7 @@ function StatCard({ icon, title, value, subtitle, color = 'accent', delay = 0 })
 
   const formatValue = (val) => {
     if (typeof val !== 'number') return val;
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0,
-    }).format(val);
+    return formatCurrency(val);
   };
 
   return (

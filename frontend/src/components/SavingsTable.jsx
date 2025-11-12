@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { PiggyBank, Banknote } from 'lucide-react';
+import { formatCurrency } from '../utils/currency';
 
 function SavingsTable({ summary, transactions }) {
   const monthLabel = summary?.current_month?.label || '';
@@ -19,15 +20,15 @@ function SavingsTable({ summary, transactions }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="card bg-gray-50 dark:bg-dark-primary">
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-xl bg-green-500/10 text-green-500">
-              <PiggyBank className="w-5 h-5" />
-            </div>
+            <span className="badge-prefix bg-green-500/10 text-green-600">
+              PKR
+            </span>
             <div>
               <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                 {monthLabel || 'Current Month'} Deposits
               </p>
               <p className="text-lg font-semibold text-gray-800 dark:text-white">
-                ${summary?.current_month?.total_deposits?.toLocaleString(undefined, { minimumFractionDigits: 2 }) || '0.00'}
+                {formatCurrency(summary?.current_month?.total_deposits || 0)}
               </p>
             </div>
           </div>
@@ -42,7 +43,7 @@ function SavingsTable({ summary, transactions }) {
                 {monthLabel || 'Current Month'} Withdrawals
               </p>
               <p className="text-lg font-semibold text-gray-800 dark:text-white">
-                ${summary?.current_month?.total_withdrawals?.toLocaleString(undefined, { minimumFractionDigits: 2 }) || '0.00'}
+                {formatCurrency(summary?.current_month?.total_withdrawals || 0)}
               </p>
             </div>
           </div>
@@ -57,7 +58,7 @@ function SavingsTable({ summary, transactions }) {
                 Savings Balance
               </p>
               <p className="text-lg font-semibold text-gray-800 dark:text-white">
-                ${summary?.all_time?.balance?.toLocaleString(undefined, { minimumFractionDigits: 2 }) || '0.00'}
+                {formatCurrency(summary?.all_time?.balance || 0)}
               </p>
             </div>
           </div>
@@ -108,7 +109,8 @@ function SavingsTable({ summary, transactions }) {
                         : 'text-red-600 dark:text-red-400'
                     }`}
                   >
-                    {tx.action === 'withdraw' ? '-' : '+'}${tx.amount.toFixed(2)}
+                    {tx.action === 'withdraw' ? '-' : '+'}
+                    {formatCurrency(tx.amount)}
                   </td>
                 </motion.tr>
               ))}

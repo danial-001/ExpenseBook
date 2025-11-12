@@ -109,26 +109,30 @@ function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div className="card bg-neutral-light dark:bg-brand-primary/30">
             <div className="flex items-center gap-3">
-              <PiggyBank className="w-5 h-5 text-brand-accent" />
+              <span className="badge-prefix bg-brand-accent/10 text-brand-accent">
+                PKR
+              </span>
               <div>
                 <p className="text-xs uppercase tracking-wide text-neutral-muted dark:text-neutral-light/70">
                   Savings Balance
                 </p>
                 <p className="text-lg font-semibold text-neutral-dark dark:text-white">
-                  ${savingsBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  {formatCurrency(savingsBalance)}
                 </p>
               </div>
             </div>
           </div>
           <div className="card bg-neutral-light dark:bg-brand-primary/30">
             <div className="flex items-center gap-3">
-              <Wallet className="w-5 h-5 text-brand-accent" />
+              <span className="badge-prefix bg-brand-accent/10 text-brand-accent">
+                PKR
+              </span>
               <div>
                 <p className="text-xs uppercase tracking-wide text-neutral-muted dark:text-neutral-light/70">
                   Remaining Balance
                 </p>
                 <p className="text-lg font-semibold text-neutral-dark dark:text-white">
-                  ${remainingBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  {formatCurrency(remainingBalance)}
                 </p>
               </div>
             </div>
@@ -144,19 +148,22 @@ function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-neutral-dark dark:text-neutral-light mb-2">
-              Amount
+              Amount (PKR)
             </label>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              name="amount"
-              value={formData.amount}
-              onChange={handleChange}
-              className="input-field"
-              placeholder="Enter amount"
-              required
-            />
+            <div className="relative">
+              <span className="input-prefix">PKR</span>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+                className="input-field input-with-icon"
+                placeholder="0.00"
+                required
+              />
+            </div>
           </div>
 
           <div>
@@ -170,7 +177,7 @@ function SavingsForm({ action = 'deposit', onClose, onSuccess, savingsBalance = 
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="input-field pl-11"
+                className="input-field input-with-icon"
                 required
               />
             </div>

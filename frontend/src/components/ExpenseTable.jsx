@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
-import { Edit2, Trash2, DollarSign } from 'lucide-react';
+import { Edit2, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { expenseAPI, incomeAPI } from '../utils/api';
 import { deleteExpense } from '../redux/expenseSlice';
 import { deleteIncome } from '../redux/incomeSlice';
 import ExpenseForm from './ExpenseForm';
 import IncomeForm from './IncomeForm';
+import { formatCurrency } from '../utils/currency';
 
 function ExpenseTable({ type = 'expense', carryover = null }) {
   const dispatch = useDispatch();
@@ -86,7 +87,9 @@ function ExpenseTable({ type = 'expense', carryover = null }) {
 
         {data.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center text-center py-12">
-            <DollarSign className="w-16 h-16 text-neutral-muted dark:text-brand-primary/50 mb-4" />
+            <div className="w-16 h-16 mb-4 rounded-full border-2 border-neutral-muted/40 dark:border-brand-primary/50 flex items-center justify-center text-neutral-muted font-semibold">
+              PKR
+            </div>
             <p className="text-neutral-muted dark:text-neutral-light/70">No {type === 'expense' ? 'expenses' : 'income'} recorded yet</p>
           </div>
         ) : (
@@ -144,7 +147,7 @@ function ExpenseTable({ type = 'expense', carryover = null }) {
                           <td className="py-3 px-4 text-sm text-neutral-muted dark:text-neutral-light/70">-</td>
                         )}
                         <td className="py-3 px-4 text-right text-sm font-semibold text-brand-accent dark:text-brand-accent">
-                          ${Number(carryover.amount || 0).toFixed(2)}
+                          {formatCurrency(carryover.amount || 0)}
                         </td>
                         <td className="py-3 px-4 text-right text-sm text-neutral-muted dark:text-neutral-light/60">—</td>
                       </motion.tr>
@@ -191,7 +194,7 @@ function ExpenseTable({ type = 'expense', carryover = null }) {
                             </td>
                           )}
                           <td className="py-3 px-4 text-right text-sm font-semibold text-neutral-dark dark:text-white">
-                            ${item.amount.toFixed(2)}
+                            {formatCurrency(item.amount)}
                           </td>
                           <td className="py-3 px-4">
                             <div className="flex items-center justify-end gap-2">

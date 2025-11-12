@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
-import { X, DollarSign, Briefcase, Calendar } from 'lucide-react';
+import { X, Briefcase, Calendar } from 'lucide-react';
 import { incomeAPI } from '../utils/api';
 import { addIncome, updateIncome } from '../redux/incomeSlice';
 
@@ -83,10 +83,10 @@ function IncomeForm({ onClose, income = null }) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Amount
+              Amount (PKR)
             </label>
             <div className="relative">
-              <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <span className="input-prefix">PKR</span>
               <input
                 type="number"
                 name="amount"
@@ -94,7 +94,7 @@ function IncomeForm({ onClose, income = null }) {
                 onChange={handleChange}
                 step="0.01"
                 min="0"
-                className="input-field pl-11"
+                className="input-field input-with-icon"
                 placeholder="0.00"
                 required
               />
@@ -112,7 +112,7 @@ function IncomeForm({ onClose, income = null }) {
                 name="source"
                 value={formData.source}
                 onChange={handleChange}
-                className="input-field pl-11"
+                className="input-field input-with-icon"
                 placeholder="e.g., Salary, Freelance Project"
                 required
               />
@@ -130,7 +130,7 @@ function IncomeForm({ onClose, income = null }) {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="input-field pl-11"
+                className="input-field input-with-icon"
                 required
               />
             </div>

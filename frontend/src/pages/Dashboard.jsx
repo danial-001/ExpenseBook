@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { Plus, TrendingUp, TrendingDown, Wallet, Lightbulb, PiggyBank, Banknote } from 'lucide-react';
+import { Plus, TrendingUp, TrendingDown, Wallet, Lightbulb, Banknote, PiggyBank } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import StatCard from '../components/StatCard';
 import ChartCard from '../components/ChartCard';
@@ -50,7 +50,11 @@ function Dashboard() {
       delay: 0.15,
     },
     {
-      icon: <PiggyBank className="w-6 h-6" />,
+      icon: (
+        <span className="text-white">
+          PKR
+        </span>
+      ),
       title: 'All-Time Savings',
       value: analytics?.all_time?.savings?.balance || 0,
       subtitle: 'Total manual savings to date',
@@ -216,9 +220,10 @@ function Dashboard() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => openSavingsForm('deposit')}
-                className="btn-secondary"
+                className="btn-secondary gap-2"
               >
-                <PiggyBank className="w-4 h-4" /> Add to Savings
+                <span className="badge-prefix bg-brand-accent/15 text-brand-accent">PKR</span>
+                Add to Savings
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.04 }}

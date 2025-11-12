@@ -115,6 +115,47 @@ body {
   transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
+.input-with-icon {
+  padding-left: 2.75rem;
+}
+
+.textarea-with-icon {
+  padding-left: 2.75rem;
+  padding-top: 1.2rem;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.textarea-prefix {
+  position: absolute;
+  left: 1rem;
+  top: 1.05rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.badge-prefix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
 .input-field:focus {
   outline: none;
   border-color: var(--accent-soft);
